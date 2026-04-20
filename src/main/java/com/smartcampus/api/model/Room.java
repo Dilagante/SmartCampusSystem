@@ -15,6 +15,12 @@ public class Room {
     }
 
     // Main Constructor
+    public Room(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    // Alt Constructor
     public Room(String id, String name, int capacity) {
         this.id = id;
         this.name = name;
