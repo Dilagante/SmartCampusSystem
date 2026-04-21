@@ -1,12 +1,15 @@
 package com.smartcampus.api.resource;
 
 import com.smartcampus.api.dao.DataStore;
+import com.smartcampus.api.exception.RoomNotEmptyException;
 import com.smartcampus.api.model.Room;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Path("/rooms")
 @Produces(MediaType.APPLICATION_JSON)
@@ -77,6 +80,35 @@ public class RoomResource {
 
         // Good Case - we found le room
         return Response.ok(room).build();
+
+    }
+
+    @DELETE
+    @Path("/{roomId}")
+    public Response deleteRoom(@PathParam("roomId") String roomId) {
+
+        // Check if the room exists
+        Room room = store.findRoomById(roomId);
+        if (room == null) {
+            Map<String, Object> error = new LinkedHashMap<>();
+            error.put("status", 404);
+            error.put("error", "Not Found");
+            error.put("message", "Room with ID '" + roomId + "' not found");
+            return Response
+                    .status(Response.Status.NOT_FOUND)
+                    .entity(error)
+                    .build();
+        }
+
+        // Check if sensors are assigned
+        if (!room.getSensorIds().isEmpty()) {
+            throw new RoomNotEmptyException(roomId);
+        }
+
+        // If safe to delete...
+        store.deleteRoom(roomId);
+
+        return Response.noContent().build();
 
     }
 
