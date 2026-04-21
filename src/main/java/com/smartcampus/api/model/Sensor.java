@@ -21,10 +21,10 @@ public class Sensor {
     }
 
     // Full Constructor without RoomID
-    public Sensor(String id, String type, String status) {
+    public Sensor(String id, String type, String roomId) {
         this.id = id;
         this.type = type;
-        this.status = status;
+        this.roomId = roomId;
     }
 
     public String getId() {
