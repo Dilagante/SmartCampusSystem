@@ -6,11 +6,15 @@ public class SensorReading {
     private long timestamp; // Epoch time (ms) when the reading was captured
     private double value;   // The actual metric value recorded by the hardware
 
-    // Main Constructor, no empty constructor is needed
+    // Main Constructor
     public SensorReading(String id, long timestamp, double value) {
         this.id = id;
         this.timestamp = timestamp;
         this.value = value;
+    }
+
+    // Empty Constructor
+    public SensorReading() {
     }
 
     public String getId() {

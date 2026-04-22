@@ -2,6 +2,7 @@ package com.smartcampus.api.resource;
 
 
 import com.smartcampus.api.dao.DataStore;
+import com.smartcampus.api.exception.LinkedResourceNotFoundException;
 import com.smartcampus.api.model.Sensor;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -53,11 +54,8 @@ public class SensorResource {
         }
 
         // Case 3 - Invalid Room ID
-        if (store.findRoomById(sensor.getRoomId()) == null) {
-            return Response
-                    .status(Response.Status.BAD_REQUEST)
-                    .entity("{\"error\": \"A Room with ID '" + sensor.getRoomId() + "' does not exist\"}")
-                    .build();
+        if (sensor.getRoomId() == null || store.findRoomById(sensor.getRoomId()) == null) {
+            throw new LinkedResourceNotFoundException("Room", sensor.getRoomId());
         }
 
         // If not problems...
@@ -71,6 +69,21 @@ public class SensorResource {
                 .build();
 
     }
+
+    // Sub-resource locator - api/v1/sensors/{sensorId}/readings
+    @Path("/{sensorId}/readings")
+    public SensorReadingResource getReadingResource(@PathParam("sensorId") String sensorId) {
+        Sensor sensor = store.findSensorById(sensorId);
+
+        if (sensor == null) {
+            throw new NotFoundException("Sensor with ID '" + sensorId + "' not found");
+        }
+
+        // Pass resolved sensor to the sub-resource
+        return new SensorReadingResource(sensor);
+    }
+
+
 
 
 
