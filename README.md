@@ -111,7 +111,7 @@ mvn -version
 
 ```bash
 git clone https://github.com/Dilagante/SmartCampusSystem.git
-cd smart-campus-api
+cd SmartCampusSystem
 ```
 
 ### Step 2 — Build the project
