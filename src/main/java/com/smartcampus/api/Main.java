@@ -9,7 +9,7 @@ import java.net.URI;
 
 public class Main {
     // The base URI the Grizzly HTTP server will listen on
-    public static final String BASE_URI = "http://localhost:8080/api/v1/";
+    public static final String BASE_URI = "http://localhost:8080/api/v1";
 
     public static HttpServer startServer() {
         final ResourceConfig rc = new ResourceConfig().packages("com.smartcampus.api");

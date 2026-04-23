@@ -112,4 +112,28 @@ public class RoomResource {
 
     }
 
+    @PUT
+    @Path("/{roomId}")
+    public Response updateRoom(@PathParam("roomId") String roomId, Room updatedRoom) {
+        Room existing = store.findRoomById(roomId);
+        if (existing == null) {
+            Map<String, Object> error = new LinkedHashMap<>();
+            error.put("status", 404);
+            error.put("error", "Not Found");
+            error.put("message", "Room with ID '" + roomId + "' not found");
+            return Response.status(Response.Status.NOT_FOUND).entity(error).build();
+        }
+
+        // Only update fields that were provided
+        if (updatedRoom.getName() != null && !updatedRoom.getName().isBlank()) {
+            existing.setName(updatedRoom.getName());
+        }
+        if (updatedRoom.getCapacity() > 0) {
+            existing.setCapacity(updatedRoom.getCapacity());
+        }
+
+        // sensorIds are managed by sensor creation/deletion, not direct room updates
+        return Response.ok(existing).build();
+    }
+
 }

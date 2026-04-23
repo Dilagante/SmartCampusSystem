@@ -36,9 +36,9 @@ public class DiscoveryResource {
         // Resource Collection Map
 
         Map<String, String> resources = new LinkedHashMap<>();
-        resources.put("rooms", "api/v1/rooms");
-        resources.put("sensors", "api/v1/sensors");
-        resources.put("readings", "api/v1/readings");
+        resources.put("rooms", "/api/v1/rooms");
+        resources.put("sensors", "/api/v1/sensors");
+        resources.put("readings", "/api/v1/sensors/{sensorId}/readings");
 
         response.put("resources", resources);
 
