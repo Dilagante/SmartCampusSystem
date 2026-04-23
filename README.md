@@ -111,7 +111,7 @@ mvn -version
 
 ```bash
 git clone https://github.com/Dilagante/SmartCampusSystem.git
-cd SmartCampusSystem
+cd smart-campus-api
 ```
 
 ### Step 2 — Build the project
@@ -125,7 +125,7 @@ Maven will download all dependencies (Jersey, Grizzly, Jackson) and compile the 
 ### Step 3 — Run the server
 
 ```bash
-mvn exec:java -Dexec.mainClass="com.smartcampus.api.Main"
+mvn exec:java "-Dexec.mainClass=com.smartcampus.api.Main"
 ```
 
 Alternatively, if you have already built the JAR:
