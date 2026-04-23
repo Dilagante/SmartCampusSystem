@@ -164,8 +164,27 @@ public class SensorResource {
         return Response.ok(existing).build();
     }
 
+    @DELETE
+    @Path("/{sensorId}")
+    public Response deleteSensor(@PathParam("sensorId") String sensorId) {
+        Sensor sensor = store.findSensorById(sensorId);
+        if (sensor == null) {
+            Map<String, Object> error = new LinkedHashMap<>();
+            error.put("status", 404);
+            error.put("error", "Not Found");
+            error.put("message", "Sensor with ID '" + sensorId + "' not found");
+            return Response.status(Response.Status.NOT_FOUND).entity(error).build();
+        }
 
+        // Clean up parent room reference first
+        Room room = store.findRoomById(sensor.getRoomId());
+        if (room != null) {
+            room.getSensorIds().remove(sensorId);
+        }
 
+        store.deleteSensor(sensorId);
+        return Response.noContent().build();
+    }
 
 
 }
